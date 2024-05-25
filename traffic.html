@@ -1,0 +1,196 @@
+
+<!-- saved from url=(0080)file:///C:/Users/user/OneDrive/SRH%20Sem%202/Applied%20Mechatronicx/traffic.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traffic Light</title>
+  <style>
+    body {
+      background-color: rgb(122, 177, 214);
+      align-items: center;
+      
+
+
+    }
+
+    .clouds {
+      width: 300px;
+      height: 200px;
+      position: absolute;
+      top: 50px;
+      left: -150px;
+      animation: cloudsmoving 20s linear infinite;
+      z-index: -1;
+
+    }
+
+    @keyframes cloudsmoving {
+      from {
+        left: -150px;
+      }
+
+      to {
+        left: 100%;
+      }
+    }
+
+
+    .container {
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+    }
+
+    .traffic_pole {
+      width: 30px;
+      height: 300px;
+      background-color: rgb(26, 32, 32);
+      border-radius: 5px;
+      margin-bottom: 10px;
+      border: 3px solid rgb(40, 35, 35);
+      box-shadow: 0 0 15px rgb(40, 35, 35);
+
+    }
+
+    .traffic_light {
+
+      width: 120px;
+      height: 400px;
+      background-color: rgb(26, 32, 32);
+      display: flex;
+      flex-direction: column;
+      border-radius: 50px;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 20px;
+      border: 3px solid rgb(40, 35, 35);
+      box-shadow: 0 0 20px rgb(40, 35, 35); 
+
+
+    }
+
+    .red,
+    .yellow,
+    .green {
+      background-color: rgb(47, 51, 54);
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      cursor: pointer;
+
+
+    }
+
+    .red.active {
+      background-color: red;
+      box-shadow: 0 0 50px 15px red;
+
+
+    }
+
+    .yellow.active {
+      background-color: yellow;
+      box-shadow: 0 0 50px 15px #ffff00;
+      
+      
+    }
+    
+
+    .green.active {
+      background-color: rgb(11, 172, 11);
+      box-shadow: 0 0 50px 15px green;
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <img src="./traffic_files/cloud.jpg" alt="A cloud" class="clouds">
+
+    <div class="clouds"></div>
+
+    <div class="traffic_light">
+
+      <div class="red" id="red"></div>
+      <div class="yellow" id="yellow"></div>
+      <div class="green" id="green"></div>
+    </div>
+    <div class="traffic_pole"></div>
+
+
+    <script>
+      document.querySelectorAll('.traffic_light div').forEach(light => {
+
+light.addEventListener('click',function() {
+    if (this.classList.contains('red')) {
+        turnOnRed();
+
+    } else if (this.classList.contains('yellow')) {
+        turnOnYellowTwice();
+
+    } else if (this.classList.contains('green')) {
+        turnOnGreen();
+    }
+});
+});
+
+let yellowInterval;
+
+function turnOnRed() {
+clearInterval(yellowInterval);
+document.querySelectorAll('.traffic_light div').forEach(light => light.classList.remove('active'));
+document.querySelector('.yellow').classList.add('active');
+yellowInterval = setInterval(() => {
+    document.querySelector('.yellow').classList.toggle('active');
+    
+}, 1500);
+setTimeout(() => {
+    clearInterval(yellowInterval);
+    document.querySelectorAll('.traffic_light div').forEach(light => light.classList.remove('active'));
+    document.querySelector('.red').classList.add('active');
+}, 1500); // 3s  (transition through yellow)
+}
+
+function turnOnGreen() {
+clearInterval(yellowInterval);
+document.querySelectorAll('.traffic_light div').forEach(light => light.classList.remove('active'));
+document.querySelector('.yellow').classList.add('active');
+yellowInterval = setInterval(() => {
+    document.querySelector('.yellow').classList.toggle('active');
+    
+}, 2000);
+setTimeout(() => {
+    clearInterval(yellowInterval);
+    document.querySelectorAll('.traffic_light div').forEach(light => light.classList.remove('active'));
+    document.querySelector('.green').classList.add('active');
+}, 1500); // 1500ms (transition through yellow)
+}
+
+function turnOnYellowTwice() {
+clearInterval(yellowInterval);
+document.querySelectorAll('.traffic_light div').forEach(light => light.classList.remove('active'));
+document.querySelector('.yellow').classList.add('active');
+yellowInterval = setInterval(() => {
+    document.querySelector('.yellow').classList.toggle('active');
+    
+}, 500);
+setTimeout(() => {
+    clearInterval(yellowInterval);
+    document.querySelector('.yellow').classList.add('active');
+    setTimeout(() => {
+        document.querySelector('.yellow').classList.remove('active');
+    }, 500); // Yellow light on for 0.5 secondss
+}, 1000); // 3000 = 1.5 seconds (transition through yellow)
+}
+    </script>
+
+  </div>
+
+
+
+</body></html>
